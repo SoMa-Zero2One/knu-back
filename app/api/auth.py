@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.schemas import schemas
+from app.schemas import users
 from app.services.user import get_user_by_uuid
 from app.services.auth import create_access_token
 from app.core.database import get_db  # DB 세션을 가져오는 의존성 함수
@@ -9,9 +9,9 @@ from app.core.database import get_db  # DB 세션을 가져오는 의존성 함�
 router = APIRouter()
 
 
-@router.post("/token", response_model=schemas.Token, tags=["Authentication"])
+@router.post("/token", response_model=users.Token, tags=["Authentication"])
 def login_for_access_token(
-    login_request: schemas.UserLoginRequest, db: Session = Depends(get_db)
+    login_request: users.UserLoginRequest, db: Session = Depends(get_db)
 ):
     """
     사용자 UUID를 받아 인증하고 JWT 액세스 토큰을 발급합니다.
