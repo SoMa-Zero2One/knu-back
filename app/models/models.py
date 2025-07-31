@@ -9,12 +9,9 @@ class User(Base):
     email = Column(String(255), unique=True, index=True, nullable=False)
     uuid = Column(String(36), unique=True, nullable=False)
     nickname = Column(String(255), nullable=False)
-    status = Column(
-        Integer, default=0, nullable=False
-    )  # 0: 미인증, 1: 인증, 2: 성적대기중
-    gpa = Column(Float, nullable=False)
+    grade = Column(Float, nullable=False)
     lang = Column(String(255), nullable=False)
-    modify_count = Column(Integer, default=3, nullable=False)
+    modify_count = Column(Integer, default=4, nullable=False)
     created_at = Column(DateTime, default=datetime.now(UTC), nullable=False)
     updated_at = Column(
         DateTime, default=datetime.now(UTC), onupdate=datetime.now(UTC), nullable=False
