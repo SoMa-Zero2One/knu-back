@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime
 from datetime import UTC, datetime
+from sqlalchemy.orm import relationship
 from app.core.database import Base
 
 
@@ -17,6 +18,8 @@ class User(Base):
         DateTime, default=datetime.now(UTC), onupdate=datetime.now(UTC), nullable=False
     )
 
+    applications = relationship("Application", back_populates="user")
+
 
 class PartnerUniversity(Base):
     __tablename__ = "partner_university"
@@ -27,6 +30,8 @@ class PartnerUniversity(Base):
     duration = Column(String(255), nullable=False)  # "1개학기" or "2개학기"
     created_at = Column(DateTime, default=datetime.now(UTC), nullable=False)
     updated_at = Column(DateTime, default=datetime.now(UTC), nullable=False)
+
+    applications = relationship("Application", back_populates="university")
 
 
 class Application(Base):
@@ -39,3 +44,6 @@ class Application(Base):
     choice = Column(Integer, nullable=False)
     created_at = Column(DateTime, default=datetime.now(UTC), nullable=False)
     updated_at = Column(DateTime, default=datetime.now(UTC), nullable=False)
+
+    user = relationship("User", back_populates="applications")
+    university = relationship("PartnerUniversity", back_populates="applications")

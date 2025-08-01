@@ -1,5 +1,7 @@
 from datetime import datetime
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
+
+from app.schemas.applications import ApplicationDetail
 
 
 # Login
@@ -26,12 +28,14 @@ class UserCreate(BaseModel):
 
 
 class UserResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     email: str
-    uuid: str
     nickname: str
     grade: float
     lang: str
     modify_count: int
+    applications: list[ApplicationDetail] = []
     created_at: datetime
     updated_at: datetime
