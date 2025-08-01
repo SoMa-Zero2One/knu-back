@@ -2,6 +2,7 @@ from pydantic import BaseModel, ConfigDict
 
 
 class PartnerUniversityInfo(BaseModel):
+    id: int
     name: str
     country: str
     slot: int
@@ -19,3 +20,11 @@ class ApplicantDetail(BaseModel):
     lang: str
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class UniversityDetailResponse(BaseModel):
+    name: str
+    country: str
+    slot: int
+    total_applicants: int
+    applicants: list[ApplicantDetail]

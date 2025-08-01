@@ -12,6 +12,7 @@ def get_universities_with_applicant_count(db: Session):
     # 학교별로 그룹화하고 지원자(Application.id) 수를 계산합니다.
     result = (
         db.query(
+            models.PartnerUniversity.id,
             models.PartnerUniversity.name,
             models.PartnerUniversity.country,
             models.PartnerUniversity.slot,
