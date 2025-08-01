@@ -25,3 +25,32 @@ def get_universities_with_applicant_count(db: Session):
         .all()
     )
     return result
+
+
+def get_applicants_for_university(db: Session, university_id: int):
+    """
+    특정 학교의 지원자 목록을 학점(grade) 내림차순으로 정렬하여 조회합니다.
+    """
+    return (
+        db.query(
+            models.User.nickname,
+            models.User.grade,
+            models.User.lang,
+            models.Application.choice,
+        )
+        .join(models.Application, models.User.id == models.Application.user_id)
+        .filter(models.Application.partner_university_id == university_id)
+        .order_by(models.User.grade.desc())  # 학점(grade)으로 내림차순 정렬
+        .all()
+    )
+
+
+def get_university(db: Session, university_id: int):
+    """
+    ID로 특정 학교 정보를 조회합니다.
+    """
+    return (
+        db.query(models.PartnerUniversity)
+        .filter(models.PartnerUniversity.id == university_id)
+        .first()
+    )
