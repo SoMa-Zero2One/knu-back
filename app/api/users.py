@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 import app.services.user as user_service
 import app.schemas.users as user_schemas
@@ -64,3 +64,54 @@ def read_me(
         created_at=db_user.created_at,
         updated_at=db_user.updated_at,
     )
+
+
+@router.put("/me/applications", response_model=user_schemas.UserResponse)
+def update_my_applications(
+    request: user_schemas.UpdateApplicationsRequest,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+):
+    try:
+        user_service.update_user_applications(
+            db=db, user=current_user, new_applications=request.applications
+        )
+        db.commit()
+
+        db_user = user_service.get_user_with_applications(db, user_id=current_user.id)
+
+        applications_details = [
+            user_schemas.ApplicationDetail(
+                choice=app.choice,
+                university_name=app.university.name,
+                country=app.university.country,
+                slot=app.university.slot,
+            )
+            for app in db_user.applications
+        ]
+
+        return user_schemas.UserResponse(
+            id=db_user.id,
+            email=db_user.email,
+            nickname=db_user.nickname,
+            grade=db_user.grade,
+            lang=db_user.lang,
+            modify_count=db_user.modify_count,
+            applications=applications_details,
+            created_at=db_user.created_at,
+            updated_at=db_user.updated_at,
+        )
+        # --- 여기까지 ---
+
+    except ValueError as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=str(e),
+        )
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="An error occurred while updating applications.",
+        )

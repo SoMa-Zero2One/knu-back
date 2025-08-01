@@ -39,3 +39,14 @@ class UserResponse(BaseModel):
     applications: list[ApplicationDetail] = []
     created_at: datetime
     updated_at: datetime
+
+
+# 지원 대학 수정을 위한 요청의 단일 항목 스키마
+class ApplicationChoice(BaseModel):
+    university_id: int
+    choice: int  # 지망 순위
+
+
+# 지원 대학 수정 요청 본문 스키마
+class UpdateApplicationsRequest(BaseModel):
+    applications: list[ApplicationChoice]
