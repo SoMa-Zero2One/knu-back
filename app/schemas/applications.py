@@ -8,3 +8,11 @@ class ApplicationDetail(BaseModel):
     country: str
     slot: int
     totalApplicants: int
+
+
+class ApplicationModifyRequest(BaseModel):
+    choice: int
+    universityId: int
+    universityName: str
+    country: str
+    slot: int

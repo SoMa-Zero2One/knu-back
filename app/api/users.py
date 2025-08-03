@@ -6,6 +6,7 @@ from app.models import models
 from app.core.database import get_db
 from app.services.auth import get_current_user
 import app.services.university as university_service
+import app.schemas.applications as application_schemas
 
 router = APIRouter()
 
@@ -80,19 +81,6 @@ def update_my_applications(
                 db, university_ids=university_ids
             )
 
-        applications_details = []
-        for app in db_user.applications:
-            university_id = app.university.id
-            applications_details.append(
-                user_schemas.ApplicationDetail(
-                    choice=app.choice,
-                    universityName=app.university.name,
-                    country=app.university.country,
-                    slot=app.university.slot,
-                    totalApplicants=applicant_counts.get(university_id, 0),
-                )
-            )
-
         return user_schemas.UserResponse(
             id=db_user.id,
             email=db_user.email,
@@ -100,7 +88,6 @@ def update_my_applications(
             grade=db_user.grade,
             lang=db_user.lang,
             modifyCount=db_user.modify_count,
-            applications=applications_details,
             createdAt=db_user.created_at,
             updatedAt=db_user.updated_at,
         )
