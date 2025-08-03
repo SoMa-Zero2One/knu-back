@@ -32,5 +32,5 @@ def login_for_access_token(
         "accessToken": access_token,
         "tokenType": "bearer",
         "id": user.id,
-        "name": user.nickname,
+        "nickname": user.nickname,
     }

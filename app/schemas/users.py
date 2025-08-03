@@ -16,7 +16,7 @@ class LoginResponse(BaseModel):
     accessToken: str
     tokenType: str = "bearer"
     id: int
-    name: str
+    nickname: str
 
 
 # User
