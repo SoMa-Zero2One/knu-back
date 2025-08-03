@@ -36,7 +36,7 @@ def read_universities(
             name=uni.name,
             country=uni.country,
             slot=uni.slot,
-            applicant_count=uni.applicant_count,
+            applicantCount=uni.applicant_count,
         )
         for uni in universities_data
     ]
@@ -81,6 +81,6 @@ def read_university_details(
         name=university.name,
         country=university.country,
         slot=university.slot,
-        total_applicants=len(applicant_list),
+        totalApplicants=len(applicant_list),
         applicants=applicant_list,
     )

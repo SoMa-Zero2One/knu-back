@@ -6,7 +6,7 @@ class PartnerUniversityInfo(BaseModel):
     name: str
     country: str
     slot: int
-    applicant_count: int
+    applicantCount: int
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -25,5 +25,5 @@ class UniversityDetailResponse(BaseModel):
     name: str
     country: str
     slot: int
-    total_applicants: int
+    totalApplicants: int
     applicants: list[ApplicantDetail]

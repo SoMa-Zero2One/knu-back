@@ -29,8 +29,8 @@ def login_for_access_token(
     access_token = create_access_token(data={"sub": user.uuid})
 
     return {
-        "access_token": access_token,
-        "token_type": "bearer",
+        "accessToken": access_token,
+        "tokenType": "bearer",
         "id": user.id,
         "name": user.nickname,
     }

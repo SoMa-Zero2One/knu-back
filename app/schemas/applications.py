@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class ApplicationDetail(BaseModel):
     choice: int
-    university_name: str
+    universityName: str
     country: str
     slot: int
-    total_applicants: int
+    totalApplicants: int

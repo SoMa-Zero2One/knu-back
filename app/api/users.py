@@ -39,10 +39,10 @@ def read_me(
         applications_details.append(
             user_schemas.ApplicationDetail(
                 choice=app.choice,
-                university_name=app.university.name,
+                universityName=app.university.name,
                 country=app.university.country,
                 slot=app.university.slot,
-                total_applicants=applicant_counts.get(university_id, 0),
+                totalApplicants=applicant_counts.get(university_id, 0),
             )
         )
 
@@ -52,7 +52,7 @@ def read_me(
         nickname=db_user.nickname,
         grade=db_user.grade,
         lang=db_user.lang,
-        modify_count=db_user.modify_count,
+        modifyCount=db_user.modify_count,
         applications=applications_details,
     )
 
@@ -85,10 +85,10 @@ def update_my_applications(
             applications_details.append(
                 user_schemas.ApplicationDetail(
                     choice=app.choice,
-                    university_name=app.university.name,
+                    universityName=app.university.name,
                     country=app.university.country,
                     slot=app.university.slot,
-                    total_applicants=applicant_counts.get(university_id, 0),
+                    totalApplicants=applicant_counts.get(university_id, 0),
                 )
             )
 
@@ -98,10 +98,10 @@ def update_my_applications(
             nickname=db_user.nickname,
             grade=db_user.grade,
             lang=db_user.lang,
-            modify_count=db_user.modify_count,
+            modifyCount=db_user.modify_count,
             applications=applications_details,
-            created_at=db_user.created_at,
-            updated_at=db_user.updated_at,
+            createdAt=db_user.created_at,
+            updatedAt=db_user.updated_at,
         )
 
     except ValueError as e:
@@ -149,10 +149,10 @@ def read_user_by_id(
         applications_details.append(
             user_schemas.ApplicationDetail(
                 choice=app.choice,
-                university_name=app.university.name,
+                universityName=app.university.name,
                 country=app.university.country,
                 slot=app.university.slot,
-                total_applicants=applicant_counts.get(university_id, 0),
+                totalApplicants=applicant_counts.get(university_id, 0),
             )
         )
 

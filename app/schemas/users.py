@@ -13,8 +13,8 @@ class UUIDLoginRequest(BaseModel):
 
 
 class LoginResponse(BaseModel):
-    access_token: str
-    token_type: str = "bearer"
+    accessToken: str
+    tokenType: str = "bearer"
     id: int
     name: str
 
@@ -23,7 +23,7 @@ class LoginResponse(BaseModel):
 class UserResponse(BaseModel):
     id: int
     email: str
-    modify_count: int
+    modifyCount: int
     nickname: str
     grade: float
     lang: str
@@ -44,7 +44,7 @@ class PublicUserResponse(BaseModel):
 
 # User Application Modify Request
 class ApplicationChoice(BaseModel):
-    university_id: int
+    universityId: int
     choice: int
 
 
