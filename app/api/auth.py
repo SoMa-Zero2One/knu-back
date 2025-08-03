@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.schemas import users as user_schemas
 from app.services.user import get_user_by_uuid
 from app.services.auth import create_access_token
-from app.core.database import get_db  # DB 세션을 가져오는 의존성 함수
+from app.core.database import get_db
 
 router = APIRouter()
 

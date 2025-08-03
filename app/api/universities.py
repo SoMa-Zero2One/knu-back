@@ -22,7 +22,7 @@ router = APIRouter()
 )
 def read_universities(
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),  # JWT 인증 적용!
+    current_user: User = Depends(get_current_user),
 ):
     """
     인증된 사용자를 위해 모든 파트너 대학교 목록을
