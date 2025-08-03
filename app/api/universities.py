@@ -69,6 +69,7 @@ def read_university_details(
     for rank, applicant in enumerate(applicants_data, 1):
         applicant_list.append(
             ApplicantDetail(
+                id=applicant.id,
                 rank=rank,
                 choice=applicant.choice,
                 nickname=applicant.nickname,

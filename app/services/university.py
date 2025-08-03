@@ -34,6 +34,7 @@ def get_applicants_for_university(db: Session, university_id: int):
     """
     return (
         db.query(
+            models.User.id,
             models.User.nickname,
             models.User.grade,
             models.User.lang,

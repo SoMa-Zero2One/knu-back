@@ -12,6 +12,7 @@ class PartnerUniversityInfo(BaseModel):
 
 
 class ApplicantDetail(BaseModel):
+    id: int
     rank: int
     choice: int
     nickname: str
