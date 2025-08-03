@@ -9,9 +9,11 @@ from app.core.database import get_db  # DB 세션을 가져오는 의존성 함�
 router = APIRouter()
 
 
-@router.post("/token", response_model=user_schemas.Token, tags=["Authentication"])
+@router.post(
+    "/token", response_model=user_schemas.LoginResponse, tags=["Authentication"]
+)
 def login_for_access_token(
-    login_request: user_schemas.UserLoginRequest, db: Session = Depends(get_db)
+    login_request: user_schemas.UUIDLoginRequest, db: Session = Depends(get_db)
 ):
     """
     사용자 UUID를 받아 인증하고 JWT와 사용자 정보를 함께 발급합니다.

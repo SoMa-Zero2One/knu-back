@@ -4,14 +4,7 @@ from app.schemas.applications import ApplicationDetail
 
 
 # Login
-class Token(BaseModel):
-    access_token: str
-    token_type: str = "bearer"
-    id: int
-    name: str
-
-
-class UserLoginRequest(BaseModel):
+class UUIDLoginRequest(BaseModel):
     uuid: str = Field(
         ...,
         description="사용자 고유 UUID",
@@ -19,10 +12,15 @@ class UserLoginRequest(BaseModel):
     )
 
 
+class LoginResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    id: int
+    name: str
+
+
 # User
 class UserResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
     id: int
     email: str
     modify_count: int
@@ -31,15 +29,17 @@ class UserResponse(BaseModel):
     lang: str
     applications: list[ApplicationDetail] = []
 
-
-class PublicUserResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
+
+class PublicUserResponse(BaseModel):
     id: int
     nickname: str
     grade: float
     lang: str
     applications: list[ApplicationDetail] = []
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 # 지원 대학 수정을 위한 요청의 단일 항목 스키마
