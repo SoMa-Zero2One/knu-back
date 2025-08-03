@@ -115,3 +115,39 @@ def update_my_applications(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An error occurred while updating applications.",
         )
+
+
+@router.get("/{user_id}", response_model=user_schemas.PublicUserResponse)
+def read_user_by_id(
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),  # API 접근 인증용
+):
+    """
+    특정 사용자(user_id)의 공개 프로필과 지원 목록을 조회합니다.
+    (이메일, 수정횟수, 생성일 등 민감 정보는 제외됩니다.)
+    """
+    db_user = user_service.get_user_with_applications(db, user_id=user_id)
+
+    if db_user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
+
+    applications_details = [
+        user_schemas.ApplicationDetail(
+            choice=app.choice,
+            university_name=app.university.name,
+            country=app.university.country,
+            slot=app.university.slot,
+        )
+        for app in db_user.applications
+    ]
+
+    return user_schemas.PublicUserResponse(
+        id=db_user.id,
+        nickname=db_user.nickname,
+        grade=db_user.grade,
+        lang=db_user.lang,
+        applications=applications_details,
+    )

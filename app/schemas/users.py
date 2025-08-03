@@ -41,6 +41,16 @@ class UserResponse(BaseModel):
     updated_at: datetime
 
 
+class PublicUserResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    nickname: str
+    grade: float
+    lang: str
+    applications: list[ApplicationDetail] = []
+
+
 # 지원 대학 수정을 위한 요청의 단일 항목 스키마
 class ApplicationChoice(BaseModel):
     university_id: int
