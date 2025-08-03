@@ -7,6 +7,8 @@ from app.schemas.applications import ApplicationDetail
 class Token(BaseModel):
     access_token: str
     token_type: str = "bearer"
+    id: int
+    name: str
 
 
 class UserLoginRequest(BaseModel):
@@ -23,10 +25,10 @@ class UserResponse(BaseModel):
 
     id: int
     email: str
+    modify_count: int
     nickname: str
     grade: float
     lang: str
-    modify_count: int
     applications: list[ApplicationDetail] = []
 
 

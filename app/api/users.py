@@ -54,8 +54,6 @@ def read_me(
         lang=db_user.lang,
         modify_count=db_user.modify_count,
         applications=applications_details,
-        created_at=db_user.created_at,
-        updated_at=db_user.updated_at,
     )
 
 
