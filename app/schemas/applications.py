@@ -6,3 +6,4 @@ class ApplicationDetail(BaseModel):
     university_name: str
     country: str
     slot: int
+    total_applicants: int
