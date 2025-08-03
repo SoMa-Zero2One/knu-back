@@ -17,15 +17,7 @@ class UserLoginRequest(BaseModel):
     )
 
 
-# sign up
-class UserCreate(BaseModel):
-    email: str
-    uuid: str
-    nickname: str
-    grade: float
-    lang: str
-
-
+# User
 class UserResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
