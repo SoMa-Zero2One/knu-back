@@ -11,6 +11,6 @@ uv run uvicorn app.main:app --reload --host 0.0.0.0
 
 ### Run prod
 ```
-docker build -t knu-grade .
-docker run -d -p 80:80 knu-grade
+docker build -t knu-server .
+docker run -d -p 8000:8000 --name knu-server knu-server
 ```

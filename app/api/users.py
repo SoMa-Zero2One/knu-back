@@ -39,6 +39,7 @@ def read_me(
         applications_details.append(
             user_schemas.ApplicationDetail(
                 choice=app.choice,
+                universityId=app.university.id,
                 universityName=app.university.name,
                 country=app.university.country,
                 slot=app.university.slot,
@@ -149,6 +150,7 @@ def read_user_by_id(
         applications_details.append(
             user_schemas.ApplicationDetail(
                 choice=app.choice,
+                universityId=app.university.id,
                 universityName=app.university.name,
                 country=app.university.country,
                 slot=app.university.slot,
