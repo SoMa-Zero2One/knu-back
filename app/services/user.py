@@ -54,7 +54,7 @@ def update_user_applications(
     for app_choice in new_applications:
         db_application = models.Application(
             user_id=user.id,
-            partner_university_id=app_choice.university_id,
+            partner_university_id=app_choice.universityId,
             choice=app_choice.choice,
         )
         db.add(db_application)
