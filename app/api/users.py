@@ -71,10 +71,6 @@ def update_my_applications(
         )
         db.commit()
 
-        db_user = user_service.get_user_with_applications(db, user_id=current_user.id)
-
-        university_ids = [app.university.id for app in db_user.applications]
-
         return {"status": True, "message": "Applications updated successfully"}
 
     except ValueError as e:
