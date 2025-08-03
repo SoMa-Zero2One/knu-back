@@ -59,7 +59,7 @@ def read_me(
     )
 
 
-@router.put("/me/applications", response_model=user_schemas.UserResponse)
+@router.put("/me/applications", response_model=dict)
 def update_my_applications(
     request: user_schemas.UpdateApplicationsRequest,
     db: Session = Depends(get_db),
@@ -75,22 +75,7 @@ def update_my_applications(
 
         university_ids = [app.university.id for app in db_user.applications]
 
-        applicant_counts = {}
-        if university_ids:
-            applicant_counts = university_service.get_applicant_counts_for_universities(
-                db, university_ids=university_ids
-            )
-
-        return user_schemas.UserResponse(
-            id=db_user.id,
-            email=db_user.email,
-            nickname=db_user.nickname,
-            grade=db_user.grade,
-            lang=db_user.lang,
-            modifyCount=db_user.modify_count,
-            createdAt=db_user.created_at,
-            updatedAt=db_user.updated_at,
-        )
+        return {"status": True, "message": "Applications updated successfully"}
 
     except ValueError as e:
         db.rollback()
