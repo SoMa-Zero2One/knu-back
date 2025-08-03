@@ -98,10 +98,7 @@ def update_my_applications(
             lang=db_user.lang,
             modify_count=db_user.modify_count,
             applications=applications_details,
-            created_at=db_user.created_at,
-            updated_at=db_user.updated_at,
         )
-        # --- 여기까지 ---
 
     except ValueError as e:
         db.rollback()

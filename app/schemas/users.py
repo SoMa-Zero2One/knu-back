@@ -37,8 +37,6 @@ class UserResponse(BaseModel):
     lang: str
     modify_count: int
     applications: list[ApplicationDetail] = []
-    created_at: datetime
-    updated_at: datetime
 
 
 class PublicUserResponse(BaseModel):
