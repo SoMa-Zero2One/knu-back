@@ -9,7 +9,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String(255), unique=True, index=True, nullable=False)
     uuid = Column(String(36), unique=True, nullable=False)
-    nickname = Column(String(255), nullable=False)
+    nickname = Column(String(255), nullable=True)
     grade = Column(Float, nullable=False)
     lang = Column(String(255), nullable=False)
     modify_count = Column(Integer, default=4, nullable=False)
