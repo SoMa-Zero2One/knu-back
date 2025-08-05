@@ -13,4 +13,5 @@ uv run uvicorn app.main:app --reload --host 0.0.0.0
 ```
 docker build -t knu-server .
 docker run -d -p 8000:8000 --name knu-server knu-server
+docker run -p 8000:8000 --name knu-server knu-server
 ```

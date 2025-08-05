@@ -34,3 +34,4 @@ def login_for_access_token(
         "id": user.id,
         "nickname": user.nickname,
     }
+    # 리턴 basemodel로 하기
