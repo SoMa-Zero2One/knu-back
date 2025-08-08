@@ -71,12 +71,12 @@ def update_my_applications(
         )
         db.commit()
 
-        return {"status": True, "message": "Applications updated successfully"}
+        return {"status": True, "message": "성공적으로 수정되었습니다."}
 
     except ValueError as e:
         db.rollback()
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(e),
         )
     except Exception as e:
@@ -91,7 +91,7 @@ def update_my_applications(
 def read_user_by_id(
     user_id: int,
     db: Session = Depends(get_db),
-    current_user: models.User = Depends(get_current_user),  # API 접근 인증용
+    current_user: models.User = Depends(get_current_user),
 ):
     """
     특정 사용자(user_id)의 공개 프로필과 지원 목록을 조회합니다.

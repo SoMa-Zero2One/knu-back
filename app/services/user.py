@@ -36,21 +36,40 @@ def update_user_applications(
 ) -> models.User:
     """
     사용자의 지원 대학 내역을 업데이트합니다.
-    1. 수정 횟수 확인
-    2. 기존 지원 내역 삭제
-    3. 신규 지원 내역 추가
-    4. 수정 횟수 차감
     """
-    # 1. 수정 횟수가 0 이하이면 ValueError 발생
-    if user.modify_count <= 0:
-        raise ValueError("No more modifications allowed")
+    # 1-1. 최대 5개 제한 검증
+    if len(new_applications) > 5:
+        raise ValueError("최대 5개의 지원까지만 가능합니다.")
 
-    # 2. 이 사용자의 기존 지원 내역을 모두 삭제
+    # 1-2. choice 순서 검증 (1, 2, 3, 4, 5 순서대로 중간에 빠짐없이)
+    if new_applications:
+        choices = [app.choice for app in new_applications]
+        choices.sort()
+        expected_choices = list(range(1, len(new_applications) + 1))
+
+        if choices != expected_choices:
+            raise ValueError(
+                "choice는 1부터 시작하여 순서대로 중간에 빠짐없이 입력해야 합니다."
+            )
+
+    # 1-3. universityId 존재 여부 검증
+    from app.services import university as university_service
+
+    for app in new_applications:
+        university = university_service.get_university(db, app.universityId)
+        if university is None:
+            raise ValueError(f"존재하지 않는 대학입니다. (ID: {app.universityId})")
+
+    # 2. 수정 횟수가 0 이하이면 ValueError 발생
+    if user.modify_count <= 0:
+        raise ValueError("수정 횟수가 부족합니다.")
+
+    # 3. 이 사용자의 기존 지원 내역을 모두 삭제
     db.query(models.Application).filter(models.Application.user_id == user.id).delete(
         synchronize_session=False
     )
 
-    # 3. 요청받은 내역으로 새로운 지원 정보 생성
+    # 4. 요청받은 내역으로 새로운 지원 정보 생성
     for app_choice in new_applications:
         db_application = models.Application(
             user_id=user.id,
@@ -59,7 +78,7 @@ def update_user_applications(
         )
         db.add(db_application)
 
-    # 4. 사용자 수정 횟수 1 차감
+    # 5. 사용자 수정 횟수 1 차감
     user.modify_count -= 1
     db.add(user)
 
