@@ -23,7 +23,7 @@ def read_me(
 
     if db_user is None:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail="유저를 찾을 수 없습니다."
         )
 
     university_ids = [app.university.id for app in db_user.applications]

@@ -50,3 +50,4 @@ class Application(Base):
 
     user = relationship("User", back_populates="applications")
     university = relationship("PartnerUniversity", back_populates="applications")
+    # 인덱스 질문 드리기

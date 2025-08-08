@@ -23,15 +23,14 @@ def login_for_access_token(
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="User with provided UUID not found",
+            detail="해당 UUID를 가진 사용자가 없습니다.",
         )
 
     access_token = create_access_token(data={"sub": user.uuid})
 
-    return {
-        "accessToken": access_token,
-        "tokenType": "bearer",
-        "id": user.id,
-        "nickname": user.nickname,
-    }
-    # 리턴 basemodel로 하기
+    return user_schemas.LoginResponse(
+        accessToken=access_token,
+        tokenType="bearer",
+        id=user.id,
+        nickname=user.nickname,
+    )
