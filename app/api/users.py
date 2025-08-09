@@ -1,17 +1,22 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from app.schemas.applications import ApplicationDetail
+from app.schemas.users import (
+    PublicUserResponse,
+    UpdateApplicationsRequest,
+    UserResponse,
+)
 import app.services.user as user_service
-import app.schemas.users as user_schemas
 from app.models import models
 from app.core.database import get_db
 from app.services.auth import get_current_user
 import app.services.university as university_service
-import app.schemas.applications as application_schemas
+
 
 router = APIRouter()
 
 
-@router.get("/me", response_model=user_schemas.UserResponse)
+@router.get("/me", response_model=UserResponse)
 def read_me(
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
@@ -38,7 +43,7 @@ def read_me(
     for app in db_user.applications:
         university_id = app.university.id
         applications_details.append(
-            user_schemas.ApplicationDetail(
+            ApplicationDetail(
                 choice=app.choice,
                 universityId=app.university.id,
                 universityName=app.university.name,
@@ -48,7 +53,7 @@ def read_me(
             )
         )
 
-    return user_schemas.UserResponse(
+    return UserResponse(
         id=db_user.id,
         email=db_user.email,
         nickname=db_user.nickname,
@@ -61,7 +66,7 @@ def read_me(
 
 @router.put("/me/applications", response_model=dict)
 def update_my_applications(
-    request: user_schemas.UpdateApplicationsRequest,
+    request: UpdateApplicationsRequest,
     db: Session = Depends(get_db),
     current_user: models.User = Depends(get_current_user),
 ):
@@ -87,7 +92,7 @@ def update_my_applications(
         )
 
 
-@router.get("/{user_id}", response_model=user_schemas.PublicUserResponse)
+@router.get("/{user_id}", response_model=PublicUserResponse)
 def read_user_by_id(
     user_id: int,
     db: Session = Depends(get_db),
@@ -116,7 +121,7 @@ def read_user_by_id(
     for app in db_user.applications:
         university_id = app.university.id
         applications_details.append(
-            user_schemas.ApplicationDetail(
+            ApplicationDetail(
                 choice=app.choice,
                 universityId=app.university.id,
                 universityName=app.university.name,
@@ -126,7 +131,7 @@ def read_user_by_id(
             )
         )
 
-    return user_schemas.PublicUserResponse(
+    return PublicUserResponse(
         id=db_user.id,
         nickname=db_user.nickname,
         grade=db_user.grade,
