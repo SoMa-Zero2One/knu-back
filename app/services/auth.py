@@ -11,7 +11,6 @@ from jose import JWTError, jwt
 from app.services.user import get_user_by_uuid
 from app.core.core import SECRET_KEY
 
-# 예: from app.core.config import settings
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 35  # 35일
 
@@ -55,7 +54,7 @@ def get_current_user(
     if len(parts) != 2 or parts[0].lower() != "bearer":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid authentication scheme. Required: 'Bearer <token>'",
+            detail="잘못된 인증 방식입니다. 'Bearer <토큰>' 형식이 필요합니다.",
         )
     jwt_token = parts[1]
 
