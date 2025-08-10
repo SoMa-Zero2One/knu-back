@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.schemas.applications import ApplicationDetail
+from app.schemas.base import BaseResponse
 from app.schemas.users import (
     PublicUserResponse,
     UpdateApplicationsRequest,
@@ -64,7 +65,7 @@ def read_me(
     )
 
 
-@router.put("/me/applications", response_model=dict)
+@router.put("/me/applications", response_model=BaseResponse)
 def update_my_applications(
     request: UpdateApplicationsRequest,
     db: Session = Depends(get_db),
@@ -76,7 +77,7 @@ def update_my_applications(
         )
         db.commit()
 
-        return {"status": True, "message": "성공적으로 수정되었습니다."}
+        return BaseResponse(status=True, detail="성공적으로 수정되었습니다.")
 
     except ValueError as e:
         db.rollback()
@@ -106,7 +107,7 @@ def read_user_by_id(
 
     if db_user is None:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+            status_code=status.HTTP_404_NOT_FOUND, detail="유저를 찾을 수 없습니다."
         )
 
     university_ids = [app.university.id for app in db_user.applications]

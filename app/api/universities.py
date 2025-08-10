@@ -58,7 +58,8 @@ def read_university_details(
     university = university_service.get_university(db, university_id=university_id)
     if not university:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="University not found"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="해당 대학교를 찾을 수 없습니다.",
         )
 
     applicants_data = university_service.get_applicants_for_university(
