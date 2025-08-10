@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, UTC
+from fastapi.security.utils import get_authorization_scheme_param
 from jose import jwt
 from pydantic import BaseModel
 from fastapi.security import APIKeyHeader
@@ -40,33 +41,36 @@ def get_current_user(
     JWT 토큰을 디코딩하고 검증하여 현재 사용자를 반환합니다.
     이 함수를 Depends()로 사용하면 엔드포인트가 자동으로 보호됩니다.
     """
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
 
-    if token is None:
-        raise credentials_exception
-
-    # "Bearer <token>" 형식인지 확인하고 토큰 부분만 분리합니다.
-    parts = token.split()
-    if len(parts) != 2 or parts[0].lower() != "bearer":
+    scheme, param = get_authorization_scheme_param(token)
+    if not token or scheme.lower() != "bearer":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="잘못된 인증 방식입니다. 'Bearer <토큰>' 형식이 필요합니다.",
+            detail="Not authenticated",
+            headers={"WWW-Authenticate": "Bearer"},
         )
-    jwt_token = parts[1]
 
     try:
-        payload = jwt.decode(jwt_token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(param, SECRET_KEY, algorithms=[ALGORITHM])
         uuid: str | None = payload.get("sub")
         if uuid is None:
-            raise credentials_exception
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Not authenticated",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
     except JWTError:
-        raise credentials_exception
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
     user = get_user_by_uuid(db, uuid=uuid)
     if user is None:
-        raise credentials_exception
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     return user
