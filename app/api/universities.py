@@ -62,6 +62,16 @@ def read_university_details(
             detail="해당 대학교를 찾을 수 없습니다.",
         )
 
+    # 현재 유저가 해당 대학에 지원했는지 확인
+    has_applied = university_service.check_user_application_status(
+        db, user_id=current_user.id, university_id=university_id
+    )
+    if not has_applied:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="해당 대학교에 지원하지 않은 사용자는 상세 정보를 조회할 수 없습니다.",
+        )
+
     applicants_data = university_service.get_applicants_for_university(
         db, university_id=university_id
     )

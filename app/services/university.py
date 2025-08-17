@@ -77,3 +77,28 @@ def get_applicant_counts_for_universities(
     )
 
     return {university_id: count for university_id, count in counts_query}
+
+
+def check_user_application_status(
+    db: Session, user_id: int, university_id: int
+) -> bool:
+    """
+    사용자가 특정 대학에 지원했는지 확인합니다.
+
+    Args:
+        db: 데이터베이스 세션
+        user_id: 사용자 ID
+        university_id: 대학 ID
+
+    Returns:
+        bool: 지원한 경우 True, 지원하지 않은 경우 False
+    """
+    application = (
+        db.query(models.Application)
+        .filter(
+            models.Application.user_id == user_id,
+            models.Application.partner_university_id == university_id,
+        )
+        .first()
+    )
+    return application is not None
