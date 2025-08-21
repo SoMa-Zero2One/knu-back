@@ -9,6 +9,7 @@ app = FastAPI()
 
 origins = [
     "https://soma-woad.vercel.app",
+    "https://gnu.gyohwan.com",
     "http://localhost:3000",
     "http://localhost:8000",
 ]
